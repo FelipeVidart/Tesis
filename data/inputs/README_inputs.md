@@ -1,95 +1,74 @@
-
 # Manual Data Inputs
 
-This folder contains datasets that must be exported manually from LSEG Workspace (Refinitiv) and therefore cannot be redistributed in this repository due to licensing restrictions.
+This folder documents licensed manual inputs that must be exported by an authorized user from LSEG Workspace / Refinitiv. These files are required to reproduce the analytical workflow, conditional on authorized access to licensed data, but they cannot be redistributed through this repository.
 
-The Python pipeline expects these files to exist locally in order to construct the final dataset.
+The Python pipeline expects selected manual input files to exist locally when constructing the final firm-month panel. The files themselves are not included in Git.
 
-These files are **not included in the GitHub repository**.
+## Why Manual Inputs Are Required
 
----
-
-# Why manual inputs are required
-
-Some datasets used in this project are not accessible through the Refinitiv Python API or require Workspace exports.
+Some datasets used in the thesis workflow are obtained through LSEG Workspace exports rather than through an automated Refinitiv Python API call.
 
 Examples include:
 
-- Historical bond yields for specific corporate bonds
-- Certain bond-level metadata
-- Data exported directly from LSEG Workspace Excel tools
+- Historical bond yields for selected corporate bonds.
+- Bond-level metadata needed for identifier matching.
+- Excel exports produced through LSEG Workspace tools.
 
-Because these datasets originate from licensed sources, they cannot be redistributed publicly.
+Because these datasets originate from licensed Refinitiv/LSEG sources, they must remain local to authorized users.
 
----
+## Expected Folder Structure
 
-# Folder structure
-
-The expected structure inside this directory is:
-
-```
+```text
 data/inputs/
-│
-└── bonds_empresas/
-    ├── (manual Excel exports placed here)
+`-- bonds_empresas/
+    |-- ConsumerStaples_and_Discretionary.xlsx
+    |-- Energy.xlsx
+    |-- Financials.xlsx
+    |-- Health_Care.xlsx
+    |-- Industrials.xlsx
+    |-- Technology_and_comms.xlsx
+    `-- Utilities_and_Real_Estate.xlsx
 ```
 
-The Python pipeline will read files located in this folder when constructing the panel dataset.
+The pipeline reads files from `data/inputs/bonds_empresas/` during panel construction.
 
----
+## Expected Files
 
-# Required files
+The following licensed Excel exports are expected locally in `data/inputs/bonds_empresas/`:
 
-You must export the necessary datasets from **LSEG Workspace** and place them inside:
+- `ConsumerStaples_and_Discretionary.xlsx`
+- `Energy.xlsx`
+- `Financials.xlsx`
+- `Health_Care.xlsx`
+- `Industrials.xlsx`
+- `Technology_and_comms.xlsx`
+- `Utilities_and_Real_Estate.xlsx`
 
-```
-data/inputs/bonds_empresas/
-```
+These files typically include bond-level information such as:
 
-These exports typically include bond-level information such as:
+- Yield to maturity.
+- Bond identifiers, including ISIN and CUSIP.
+- Issuer identifiers.
+- Pricing information.
+- Maturity and coupon characteristics.
 
-- Yield to maturity
-- Bond identifier (ISIN / CUSIP)
-- Issuer identifier
-- Pricing information
-- Maturity and coupon characteristics
+The exact fields must match the exports and column names expected by the panel-construction notebook. Do not rename columns expected by the pipeline.
 
-The exact fields depend on the query used in LSEG Workspace.
+## How To Regenerate The Files
 
----
+1. Open LSEG Workspace / Refinitiv with authorized credentials.
+2. Use the relevant bond search or data export tools.
+3. Query the corporate bonds corresponding to the firms in the thesis universe.
+4. Export the required results to Excel `.xlsx` files.
+5. Save the files inside `data/inputs/bonds_empresas/` using the filenames listed above.
 
-# How to regenerate the files
+## Important Notes
 
-1. Open **LSEG Workspace (Refinitiv)**.
-2. Navigate to the bond search or data export tools.
-3. Query the corporate bonds corresponding to the firms in the project universe.
-4. Export the results to **Excel (.xlsx)**.
-5. Save the files inside:
+- These files are required by `notebooks/02_construccion_panel.ipynb`.
+- If the files are missing, panel construction will fail with a file-not-found error.
+- These datasets are not distributed because of Refinitiv/LSEG licensing restrictions.
+- Do not commit the Excel exports, raw data, proprietary identifiers beyond documentation needs, or any licensed observation-level data.
 
-```
-data/inputs/bonds_empresas/
-```
+## Reproducibility Statement
 
-Do **not rename columns** expected by the pipeline.
-
----
-
-# Important notes
-
-- These files are required for the panel construction notebook:
-
-```
-notebooks/02_construccion_panel.ipynb
-```
-
-- If the files are missing, the pipeline will fail with a file-not-found error.
-
-- These datasets are not distributed due to Refinitiv licensing restrictions.
-
----
-
-# Reproducibility statement
-
-The repository provides the full code required to process the data and estimate the econometric models.
-
-However, users must have valid access to **LSEG Workspace / Refinitiv** in order to regenerate the raw datasets used in the analysis.
+The repository provides code and documentation required to reproduce the analytical workflow, conditional on authorized access to licensed data. Users must rely on their own Refinitiv/LSEG access and credentials to regenerate the raw and manual input datasets used in the thesis.

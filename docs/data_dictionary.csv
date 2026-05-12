@@ -1,0 +1,20 @@
+variable,description,frequency,level,source,role
+firm_id,Internal firm identifier used to link sources,monthly,firm,constructed,Primary panel entity identifier
+month,Calendar month identifier for the firm-month panel,monthly,firm-month,constructed,Time index for panel estimation
+ric,Refinitiv Instrument Code used for source matching,source-specific,instrument or firm,Refinitiv/LSEG,Identifier for traceability and merges
+isin,International Securities Identification Number,source-specific,bond or instrument,Refinitiv/LSEG,Licensed security identifier used in bond matching
+cusip,CUSIP security identifier,source-specific,bond or instrument,Refinitiv/LSEG,Licensed security identifier used in bond matching
+gics_sector,GICS sector classification,periodic,firm,Refinitiv/LSEG,Classifies firms for sector controls and grouping
+oas_mean,Mean option-adjusted spread aggregated across eligible bonds,monthly,firm-month,Refinitiv/LSEG and constructed,Dependent variable or spread input for regression analysis
+ytm_mean,Mean yield to maturity aggregated across eligible bonds,monthly,firm-month,Refinitiv/LSEG and constructed,Bond pricing input and spread construction support
+maturity_mean,Mean remaining maturity across eligible bonds,monthly,firm-month,Refinitiv/LSEG and constructed,Bond characteristic and control variable
+coupon_mean,Mean coupon across eligible bonds,monthly,firm-month,Refinitiv/LSEG and constructed,Bond characteristic used for sample description or controls
+mkt_ret,Aggregate market return or market shock measure,monthly,market,Refinitiv/LSEG and constructed,Aggregate market shock in the thesis models
+credit_shock,Aggregate credit factor or credit shock measure,monthly,market,Refinitiv/LSEG and constructed,Aggregate credit shock in the thesis models
+ivol_252,Firm idiosyncratic volatility estimated over a rolling 252-trading-day window,daily to monthly,firm-month,Refinitiv/LSEG and constructed,Firm-level risk and exposure control
+leverage,Firm leverage measure constructed from fundamentals,monthly,firm-month,Refinitiv/LSEG and constructed,Firm balance-sheet control and heterogeneity variable
+liquidity,Firm liquidity proxy constructed from fundamentals,monthly,firm-month,Refinitiv/LSEG and constructed,Firm control variable
+size,Firm size proxy constructed from fundamentals,monthly,firm-month,Refinitiv/LSEG and constructed,Firm control variable
+market_share_w,Weighted market-share measure used as a market power proxy,monthly,firm-month,Refinitiv/LSEG and constructed,Heterogeneity variable for differential exposure
+market_shock_x_leverage,Interaction between market shock and leverage,monthly,firm-month,constructed,Tests heterogeneous exposure to aggregate market shocks
+credit_shock_x_leverage,Interaction between credit shock and leverage,monthly,firm-month,constructed,Tests heterogeneous exposure to aggregate credit shocks

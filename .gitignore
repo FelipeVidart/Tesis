@@ -49,13 +49,13 @@ data/clean/
 data/intermediate/
 data/tmp/
 
-data/**/*.parquet
-data/**/*.feather
-data/**/*.arrow
-data/**/*.h5
-data/**/*.hdf5
-data/**/*.pkl
-data/**/*.pickle
+*.parquet
+*.feather
+*.arrow
+*.h5
+*.hdf5
+*.pkl
+*.pickle
 
 # =========================
 # Manual inputs (licensed)
@@ -68,6 +68,9 @@ data/inputs/**
 # Allow templates (no data)
 !data/inputs/templates/
 !data/inputs/templates/*
+
+# Allow repository documentation
+!docs/
 
 # =========================
 # Outputs

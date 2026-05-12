@@ -1,0 +1,6 @@
+step,input,output,script_or_notebook,description
+01,Refinitiv/LSEG Workspace and API,raw local files,notebooks/01_descarga_datos.ipynb,Download and organize raw market bond equity fundamentals and identifier data
+02,raw local files and manual Workspace exports,intermediate cleaned files,notebooks/02_construccion_panel.ipynb,Clean identifiers harmonize frequencies and prepare bond equity macro and firm-level blocks
+03,intermediate cleaned files,firm-month master panel,notebooks/02_construccion_panel.ipynb,Merge all blocks into the final firm-month panel used for estimation
+04,firm-month master panel,regression outputs and diagnostics,notebooks/03_runer_econometrico.ipynb,Estimate panel regressions robustness checks and diagnostic outputs
+05,regression outputs,tables and figures,notebooks/03_runer_econometrico.ipynb,Generate thesis-ready consolidated tables and figures
