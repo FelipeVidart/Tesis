@@ -1,240 +1,173 @@
+# S&P 500 Credit Spreads Thesis - Methodological Companion
 
-# S&P 500 – Structural Identification of Systematic and Aggregate Credit Risk
+This repository is the methodological companion to the approved Undergraduate Thesis in Finance:
 
-This repository contains the full data pipeline and econometric implementation for my Undergraduate Thesis in Finance.
+> "Shocks agregados de mercado y credito, exposicion diferencial y spreads de credito: evidencia de empresas del S&P 500"
 
-The project studies how aggregate market and credit shocks — and heterogeneous firm-level exposure to those shocks — are reflected in corporate bond credit spreads of large S&P 500 firms.
+The repository documents the computational pipeline used to download, organize, clean, integrate, and analyze licensed Refinitiv/LSEG data for the thesis. It is intended to support methodological traceability and conditional reproducibility for authorized users, not to redistribute proprietary datasets.
 
-All financial data are sourced exclusively from Refinitiv (Eikon / RDP) and processed in Python.
+The empirical question is:
 
----
+> How are aggregate market and credit shocks, and firm-level heterogeneity in exposure to those shocks, reflected in corporate bond credit spreads of S&P 500 firms?
 
-## Research Question
+Core design features:
 
-How are aggregate market and credit shocks, and firm-level heterogeneity in exposure to those shocks, reflected in corporate bond credit spreads of S&P 500 firms?
+- Universe: firms in the S&P 500.
+- Period: 2015-2025.
+- Unit of observation: firm-month.
+- Main dependent variable: option-adjusted spread (OAS), aggregated at the firm-month level.
+- Data source: Refinitiv/LSEG only, through API downloads and authorized Workspace exports.
 
----
+## Data Availability And Licensing
+
+All raw market, bond, equity, fundamentals, identifier, and macro-financial data used in the thesis come from Refinitiv/LSEG. These data are subject to license restrictions and are not redistributed in this repository.
+
+The repository does not include:
+
+- Raw Refinitiv/LSEG downloads.
+- Manual Workspace exports.
+- Proprietary firm-level, bond-level, or observation-level panel datasets.
+- Local credentials or API keys.
+
+Authorized users must obtain the data directly through their own Refinitiv/LSEG access and place local inputs in the expected folders described in `data/README.md` and `data/inputs/README_inputs.md`.
+
+Aggregated tables and figures may be versioned when they do not disclose proprietary observation-level data. Existing outputs are kept for thesis traceability, subject to the applicable data license and institutional review.
+
+## Reproducibility Scope
+
+This is not a public complete replication package. Full replication requires:
+
+- Authorized access to Refinitiv/LSEG Workspace and APIs.
+- A valid local API key configured outside version control.
+- Manual Workspace exports where required by the pipeline.
+- The same notebook execution order used in the thesis.
+
+Within those constraints, the repository allows readers to audit:
+
+- The computational workflow used to obtain and organize source data.
+- The cleaning and integration logic used to construct the firm-month panel.
+- The construction of variables used in the thesis.
+- The panel regression workflow and diagnostic output generation.
+
+The approved thesis results are not being revised here. The repository is curated to document the existing workflow.
+
+## Pipeline Overview
+
+The pipeline is organized around three notebooks:
+
+| Step | Notebook | Purpose |
+|---|---|---|
+| 1 | `notebooks/01_descarga_datos.ipynb` | Download and organize Refinitiv/LSEG data. |
+| 2 | `notebooks/02_construccion_panel.ipynb` | Clean, harmonize, merge, and construct the firm-month panel. |
+| 3 | `notebooks/03_runer_econometrico.ipynb` | Estimate panel models and generate regression tables, figures, and diagnostics. |
+
+The workflow documents how the thesis pipeline:
+
+1. Downloads and organizes data from Refinitiv/LSEG.
+2. Cleans and integrates bond, equity, macro-financial, fundamentals, sector, and identifier sources.
+3. Constructs the final firm-month panel.
+4. Estimates panel models.
+5. Generates tables, figures, and diagnostics used for thesis reporting.
+
+See `docs/lineage_log.csv` for a compact lineage map across inputs, outputs, and notebooks.
 
 ## Repository Structure
 
-```
+```text
 .
-├── notebooks/
-│   ├── 01_descarga_datos.ipynb
-│   ├── 02_construccion_panel.ipynb
-│   └── 03_runer_econometrico.ipynb
-│
-├── data/
-│   ├── inputs/
-│   │   └── bonds_empresas/
-│   ├── raw/            (not versioned)
-│   ├── clean/          (not versioned)
-│   └── sample/
-│
-├── outputs/
-│   ├── tables/
-│   ├── figures/
-│   └── logs/
-│
-├── docs/
-├── src/
-│
-├── .env.example
-├── .gitignore
-├── requirements.txt
-├── LICENSE
-└── README.md
+|-- notebooks/
+|   |-- 01_descarga_datos.ipynb
+|   |-- 02_construccion_panel.ipynb
+|   `-- 03_runer_econometrico.ipynb
+|
+|-- data/
+|   |-- README.md
+|   |-- inputs/
+|   |   |-- README_inputs.md
+|   |   `-- templates/
+|   |-- raw/            # local only, not versioned
+|   |-- intermediate/   # local only, not versioned
+|   |-- clean/          # local only, not versioned
+|   `-- sample/         # optional non-proprietary samples only
+|
+|-- docs/
+|   |-- reproducibility_note.md
+|   |-- lineage_log.csv
+|   |-- refinitiv_fields.md
+|   |-- data_dictionary.csv
+|   `-- data_dictionary.md
+|
+|-- outputs/
+|   |-- tables/
+|   |-- figures/
+|   `-- results/
+|
+|-- src/
+|-- .env.example
+|-- .gitignore
+|-- requirements.txt
+|-- LICENSE
+`-- README.md
 ```
 
----
+## Setup
 
-## Data Source
-
-All financial and market data are obtained exclusively from Refinitiv (Eikon / RDP).
-
-Due to licensing restrictions, raw and processed datasets are not versioned in this repository.
-
-If manual exports from Refinitiv Workspace are required, they must be placed in:
-
-```
-data/inputs/
-```
-
----
-
-## Data Access and Licensing
-
-This project relies on data obtained from **LSEG Workspace / Refinitiv**.
-
-Due to licensing restrictions, raw financial datasets cannot be redistributed through this repository.
-
-Some datasets used in the analysis were exported manually from LSEG Workspace (for example, bond-level yields and metadata). These files must be placed locally inside:
-
-```
-data/inputs/
-```
-
-Detailed instructions for regenerating these files are provided in:
-
-```
-data/inputs/README_inputs.md
-```
-
-As a result, the repository is fully reproducible **conditional on having valid access to LSEG Workspace / Refinitiv**.
-
-## Setup Instructions
-
-### 1) Clone the repository
-
-```bash
-git clone <your_repository_url>
-cd tesis-sp500-panel
-```
-
-### 2) Create a virtual environment
-
-**Mac / Linux**
+Create a Python environment and install dependencies:
 
 ```bash
 python -m venv venv
-source venv/bin/activate
-```
-
-**Windows**
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-### 3) Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-### 4) Configure Refinitiv API Key
+Configure credentials locally by creating a `.env` file in the project root:
 
-Create a file named `.env` in the project root directory and include:
-
-```
-EIKON_APP_KEY=YOUR_API_KEY_HERE
+```text
+EIKON_APP_KEY=your_refinitiv_or_lseg_app_key_here
 ```
 
-Do not commit this file to GitHub.
-
----
+Do not commit `.env` or any credentials.
 
 ## Execution Order
 
-The pipeline must be executed sequentially.
+The notebooks are designed to be run sequentially by an authorized user with local access to the licensed inputs:
 
-### Step 1 – Data Download
+1. `notebooks/01_descarga_datos.ipynb`
+2. `notebooks/02_construccion_panel.ipynb`
+3. `notebooks/03_runer_econometrico.ipynb`
 
-Run:
-
-```bash
-notebooks/01_descarga_datos.ipynb
-```
-
-This notebook downloads raw financial and market data from Refinitiv and stores them in:
-
-```
-data/raw/
-```
-
----
-
-### Step 2 – Panel Construction
-
-Run:
-
-```bash
-notebooks/02_construccion_panel.ipynb
-```
-
-This notebook cleans, merges and constructs the final firm–month panel dataset.
-
-Output generated:
-
-```
-data/clean/panel_master.parquet
-```
-
----
-
-### Step 3 – Econometric Estimation
-
-Run:
-
-```bash
-notebooks/03_runer_econometrico.ipynb
-```
-
-This notebook estimates panel regressions (Models M0–M6) including firm and time fixed effects.
-
-Outputs generated:
-
-```
-outputs/tables/
-outputs/figures/
-outputs/logs/
-```
-
----
+The third notebook name is preserved as used in the approved thesis workflow.
 
 ## Econometric Framework
 
-The baseline structural specification estimated in the thesis is:
+The empirical analysis estimates panel models relating firm-month credit spreads to aggregate market and credit shocks, heterogeneous exposure, firm controls, and fixed effects as implemented in the thesis notebooks.
 
+The baseline structure can be summarized as:
+
+```text
+spread_it = alpha
+          + beta_1 * market_shock_t
+          + beta_2 * credit_shock_t
+          + beta_3 * exposure_it * market_shock_t
+          + beta_4 * exposure_it * credit_shock_t
+          + controls_it
+          + firm fixed effects
+          + time controls or time fixed effects
+          + error_it
 ```
-spread_{i,t} = α
-             + β1 · market_shock_t
-             + β2 · credit_shock_t
-             + β3 · (exposure_i × market_shock_t)
-             + β4 · (exposure_i × credit_shock_t)
-             + controls_{i,t}
-             + μ_i + τ_t + ε_{i,t}
-```
 
-Where:
+This README describes the workflow and does not modify the thesis specifications, results, or reported estimates.
 
-- μ_i = firm fixed effects  
-- τ_t = time fixed effects  
-- Standard errors clustered at the firm level  
+## Recommended Next Steps
 
-Robustness checks include alternative specifications and additional fixed-effect structures.
-
-## Econometric Models
-
-The empirical analysis estimates a sequence of panel models designed to progressively identify aggregate market and credit shocks and firm-level heterogeneity in exposure to these shocks.
-
-The models follow the structure below:
-
-| Model | Description |
-|------|-------------|
-| **M0** | Baseline specification with firm and time fixed effects. |
-| **M1** | Macro-saturated specification including observable aggregate factors. |
-| **M2** | Panel CAPM specification with an explicit aggregate market return. |
-| **M3** | Heterogeneous CAPM specification allowing firm-level exposure to the market shock through interactions with firm characteristics. |
-| **M4** | Model including an explicit aggregate credit factor capturing common credit market conditions. |
-| **M5** | Heterogeneous credit specification allowing firm-level exposure to credit shocks. |
-| **M6** | Full model including both market and credit channels jointly. |
-
-All models include firm fixed effects and appropriate clustered standard errors.
-
----
-
-## Reproducibility Notes
-
-- Raw Refinitiv data cannot be redistributed.
-- The repository contains the complete transformation and estimation pipeline.
-- All empirical tables included in the thesis are generated directly from this codebase.
-
----
+- Add non-proprietary templates under `data/inputs/templates/` if useful for documenting manual Workspace export formats.
+- Review whether any existing observation-level outputs should be moved out of version control under the applicable Refinitiv/LSEG license.
+- Add a short notebook header to each notebook only if future documentation review requires it.
+- TODO: consider renaming `03_runer_econometrico.ipynb` in a future cleanup after updating all references and confirming no path dependencies.
 
 ## Author
 
-Undergraduate Thesis in Finance  
-Universidad de San Andrés  
-2025–2026
+Undergraduate Thesis in Finance
+
+Universidad de San Andres
+
+2025-2026
