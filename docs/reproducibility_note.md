@@ -6,7 +6,7 @@ It contains:
 
 - Notebooks that document the data download, data organization, panel construction, econometric estimation, and output generation workflow.
 - Documentation describing expected licensed inputs, pipeline lineage, source blocks, and selected analytical variables.
-- Aggregated tables, figures, and diagnostics when they are suitable for version control and do not disclose proprietary observation-level data.
+- Aggregated tables, figures, and diagnostics when they do not disclose proprietary observation-level data and when versioning them is consistent with applicable license restrictions.
 
 It does not contain:
 

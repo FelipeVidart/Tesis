@@ -2,7 +2,7 @@
 
 This repository is the methodological companion to the approved Undergraduate Thesis in Finance:
 
-> "Shocks agregados de mercado y credito, exposicion diferencial y spreads de credito: evidencia de empresas del S&P 500"
+> "Shocks agregados de mercado y crédito, exposición diferencial y spreads de crédito: evidencia de empresas del S&P 500"
 
 The repository documents the computational pipeline used to download, organize, clean, integrate, and analyze licensed Refinitiv/LSEG data for the thesis. It is intended to support methodological traceability and conditional reproducibility for authorized users, not to redistribute proprietary datasets.
 
@@ -31,7 +31,7 @@ The repository does not include:
 
 Authorized users must obtain the data directly through their own Refinitiv/LSEG access and place local inputs in the expected folders described in `data/README.md` and `data/inputs/README_inputs.md`.
 
-Aggregated tables and figures may be versioned when they do not disclose proprietary observation-level data. Existing outputs are kept for thesis traceability, subject to the applicable data license and institutional review.
+Aggregated tables and figures may be versioned when they do not disclose proprietary observation-level data and when doing so is consistent with applicable license restrictions.
 
 ## Reproducibility Scope
 
@@ -168,6 +168,6 @@ This README describes the workflow and does not modify the thesis specifications
 
 Undergraduate Thesis in Finance
 
-Universidad de San Andres
+Universidad de San Andrés
 
 2025-2026
